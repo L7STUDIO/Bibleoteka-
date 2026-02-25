@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Библиотекарь | Предложения</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1>Панель библиотекаря</h1>
+      <a href="index.html" class="role-btn">← На главную</a>
+    </div>
+
+    <!-- Уведомления -->
+    <div id="librarianNotifications" style="margin-bottom: 20px;"></div>
+
+    <h2>Предложить новую книгу</h2>
+    <p style="color: var(--text-light); margin-bottom: 1rem;">Книга появится в каталоге только после одобрения</p>
+    
+    <input id="title" placeholder="Название">
+    <input id="author" placeholder="Автор">
+    <input id="year" placeholder="Год">
+    <button onclick="addBookProposal()">Отправить на модерацию</button>
+
+    <hr>
+
+    <h2>Мои предложения</h2>
+    <div id="myProposals"></div>
+  </div>
+
+  <div id="notificationModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 id="notificationTitle">Уведомление</h3>
+      <p id="notificationMessage"></p>
+    </div>
+  </div>
+
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

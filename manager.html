@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Менеджер | Модерация</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .auth-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .login-form {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .login-input {
+      padding: 8px 12px;
+      border: 2px solid #eef2f6;
+      border-radius: 8px;
+      font-size: 14px;
+      width: 200px;
+    }
+    
+    .login-input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    
+    .login-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .logout-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .manager-status {
+      color: #28a745;
+      font-weight: 500;
+      margin-right: 15px;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    #protectedContent.hidden {
+      display: none;
+    }
+    
+    #authMessage {
+      text-align: center;
+      padding: 50px;
+      background: var(--surface);
+      border-radius: 20px;
+      margin-top: 30px;
+    }
+    
+    #authMessage.hidden {
+      display: none;
+    }
+    
+    .book-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    
+    .approve-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .reject-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .pending-card {
+      background: #fff8e7;
+      border-left: 4px solid #ff9800;
+      margin-bottom: 15px;
+      padding: 15px;
+      border-radius: 12px;
+    }
+    
+    .notification-item {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 4px solid var(--accent);
+      box-shadow: var(--shadow);
+    }
+    
+    #loader {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+      <h1>Панель менеджера</h1>
+      
+      <div class="auth-section">
+        <div id="authStatus" class="hidden">
+          <span class="manager-status">✅ ValeriyAleksandrovich</span>
+          <button onclick="logout()" class="logout-btn">Выйти</button>
+        </div>
+        
+        <div id="loginBlock" class="login-form">
+          <input type="text" id="username" class="login-input" placeholder="Логин" value="ValeriyAleksandrovich">
+          <input type="password" id="password" class="login-input" placeholder="Пароль">
+          <button onclick="login()" class="login-btn">Войти</button>
+        </div>
+        
+        <a href="index.html" class="role-btn">← На главную</a>
+      </div>
+    </div>
+
+    <div id="protectedContent" class="hidden">
+      <h2>Ожидают проверки <span id="pendingCount" class="notification-badge">0</span></h2>
+      <div id="pendingBooks">Загрузка...</div>
+
+      <hr>
+
+      <h2>История уведомлений</h2>
+      <div id="notificationsList">Загрузка...</div>
+    </div>
+    
+    <div id="authMessage">
+      <h2 style="color: var(--text-light);">🔒 Войдите в систему для доступа к панели менеджера</h2>
+      <p style="color: var(--text-light); margin-top: 10px;">Используйте логин: <b>ValeriyAleksandrovich</b></p>
+    </div>
+  </div>
+
+  <div id="loader" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
+  <script>
+    // Принудительно скрываем лоадер
+    document.addEventListener('DOMContentLoaded', function() {
+      const loader = document.getElementById('loader');
+      if (loader) loader.style.display = 'none';
+    });
+    
+    // Данные для входа
+    const MANAGER_CREDENTIALS = {
+      username: "ValeriyAleksandrovich",
+      password: "V@l3r1y_S3cr3t_P@ssw0rd_2024!xYz"
+    };
+    
+    // Функция проверки авторизации
+    function checkAuth() {
+      const isAuth = sessionStorage.getItem('managerAuthenticated') === 'true';
+      const loginTime = parseInt(sessionStorage.getItem('managerLoginTime') || '0');
+      const isValid = isAuth && (Date.now() - loginTime < 60 * 60 * 1000);
+      
+      const protectedContent = document.getElementById('protectedContent');
+      const authMessage = document.getElementById('authMessage');
+      const loginBlock = document.getElementById('loginBlock');
+      const authStatus = document.getElementById('authStatus');
+      
+      if (protectedContent && authMessage && loginBlock && authStatus) {
+        if (isValid) {
+          protectedContent.classList.remove('hidden');
+          authMessage.classList.add('hidden');
+          loginBlock.classList.add('hidden');
+          authStatus.classList.remove('hidden');
+          sessionStorage.setItem('managerLoginTime', Date.now());
+        } else {
+          protectedContent.classList.add('hidden');
+          authMessage.classList.remove('hidden');
+          loginBlock.classList.remove('hidden');
+          authStatus.classList.add('hidden');
+          sessionStorage.removeItem('managerAuthenticated');
+          sessionStorage.removeItem('managerLoginTime');
+        }
+      }
+    }
+    
+    window.login = function() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      
+      if (username === MANAGER_CREDENTIALS.username && password === MANAGER_CREDENTIALS.password) {
+        sessionStorage.setItem('managerAuthenticated', 'true');
+        sessionStorage.setItem('managerLoginTime', Date.now());
+        checkAuth();
+        alert('Добро пожаловать!');
+      } else {
+        alert('Неверный логин или пароль');
+      }
+    };
+    
+    window.logout = function() {
+      sessionStorage.removeItem('managerAuthenticated');
+      sessionStorage.removeItem('managerLoginTime');
+      checkAuth();
+      alert('Вы вышли из системы');
+    };
+    
+    // Проверяем авторизацию при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuth();
+    });
+  </script>
+  
+  <script type="module" src="app.js"></script>
+</body>
+</html>
