@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Онлайн библиотека</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>Каталог книг</h1>
+
+  <input type="text" id="searchInput" placeholder="Поиск по названию">
+
+  <div id="alphabet"></div>
+  <div id="booksList"></div>
+
+  <hr>
+
+  <h2>Добавить книгу</h2>
+  <input id="title" placeholder="Название">
+  <input id="author" placeholder="Автор">
+  <input id="year" placeholder="Год">
+  <button onclick="addBook()">Добавить</button>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
