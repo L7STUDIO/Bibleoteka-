@@ -1,48 +1,168 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+:root {
+  --kz-blue: #00A3DD;
+  --kz-dark: #071821;
+  --kz-gold: #FFD54F;
+  --card-bg: rgba(255,255,255,0.9);
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,213,79,0.25), transparent 40%),
+    linear-gradient(160deg, #00A3DD, #071821);
+  min-height: 100vh;
+  color: #111;
+}
+
+/* контейнер */
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 14px;
+}
+
+/* заголовок */
 
 h1 {
   text-align: center;
+  color: white;
+  margin: 8px 0 16px;
+  font-size: clamp(22px, 5vw, 32px);
 }
+
+/* поиск */
 
 #searchInput {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
   font-size: 16px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+  background: rgba(255,255,255,0.95);
 }
+
+/* алфавит */
 
 #alphabet {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  justify-content: center;
 }
 
 .letter {
-  padding: 6px 10px;
-  background: #e0e0e0;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
   cursor: pointer;
-  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.15s;
+  user-select: none;
 }
 
-.letter:hover {
-  background: #bdbdbd;
+.letter:active {
+  transform: scale(0.92);
+  background: var(--kz-gold);
 }
+
+/* СЕТКА КНИГ */
+
+#booksList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* карточка книги */
 
 .book {
-  background: white;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
   padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  transition: 0.15s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+}
+
+.book:active {
+  transform: scale(0.97);
+}
+
+/* название */
+
+.book b {
+  font-size: 15px;
+  line-height: 1.2;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* текст */
+
+.book-info {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* форма */
+
+h2 {
+  color: white;
+  margin-top: 22px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+}
+
+/* кнопка */
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: var(--kz-gold);
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* планшеты */
+
+@media (min-width: 600px) {
+  #booksList {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ПК */
+
+@media (min-width: 900px) {
+  #booksList {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
