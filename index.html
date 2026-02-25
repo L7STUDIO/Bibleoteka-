@@ -3,30 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Онлайн библиотека</title>
+  <title>Библиотека | Каталог</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<body>
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h1>Каталог книг</h1>
+      <div>
+        <a href="librarian.html" class="role-btn">👤 Библиотекарь</a>
+        <a href="manager.html" class="role-btn">👑 Менеджер</a>
+      </div>
+    </div>
 
-<div class="container">
-  <h1>Каталог книг</h1>
+    <input type="text" id="searchInput" placeholder="Поиск по названию">
+    <div id="alphabet"></div>
+    <div id="booksList"></div>
+  </div>
 
-  <input type="text" id="searchInput" placeholder="Поиск по названию">
+  <!-- Модальное окно -->
+  <div id="notificationModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 id="notificationTitle">Уведомление</h3>
+      <p id="notificationMessage"></p>
+    </div>
+  </div>
 
-  <div id="alphabet"></div>
-  <div id="booksList"></div>
+  <div id="loader">
+    <div class="spinner"></div>
+  </div>
 
-  <hr>
-
-  <h2>Добавить книгу</h2>
-  <input id="title" placeholder="Название">
-  <input id="author" placeholder="Автор">
-  <input id="year" placeholder="Год">
-  <button onclick="addBook()">Добавить</button>
-</div>
-
-<script type="module" src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
-<div id="loader">
-  <div class="spinner"></div>
-</div>
 </html>
