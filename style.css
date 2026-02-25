@@ -368,4 +368,251 @@ hr {
   .book {
     padding: 0.8rem;
   }
+}
+/* Дополнительные стили для ролей */
+.role-btn {
+  background: var(--surface);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid rgba(0,0,0,0.02);
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.role-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background: var(--primary);
+  color: white;
+}
+
+.notification-badge {
+  background: var(--accent);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  background-color: var(--surface);
+  margin: 15% auto;
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  animation: slideDown 0.3s;
+}
+
+.close {
+  color: var(--text-light);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.close:hover {
+  color: var(--accent);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
   }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Стили для карточек в модерации */
+.book.pending {
+  background: #fff8e7;
+  border-left: 4px solid #ff9800;
+}
+
+.book.rejected {
+  background: #ffeeee;
+  border-left: 4px solid var(--accent);
+  opacity: 0.8;
+}
+
+.book.approved {
+  border-left: 4px solid #28a745;
+}
+
+.rejection-reason {
+  color: var(--accent);
+  font-size: 0.8rem;
+  margin-top: 5px;
+  font-style: italic;
+}
+/* Дополнительные стили для ролей */
+.role-btn {
+  background: var(--surface);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid rgba(0,0,0,0.02);
+  display: inline-block;
+  margin-left: 8px;
+}
+
+.role-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  background: var(--primary);
+  color: white;
+}
+
+.notification-badge {
+  background: var(--accent);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  background-color: var(--surface);
+  margin: 15% auto;
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-hover);
+  position: relative;
+  animation: slideDown 0.3s;
+}
+
+.close {
+  color: var(--text-light);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.close:hover {
+  color: var(--accent);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.book.pending {
+  background: #fff8e7;
+  border-left: 4px solid #ff9800;
+}
+
+.book.rejected {
+  background: #ffeeee;
+  border-left: 4px solid var(--accent);
+  opacity: 0.8;
+}
+
+.book.approved {
+  border-left: 4px solid #28a745;
+}
+
+.rejection-reason {
+  color: var(--accent);
+  font-size: 0.8rem;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.pending-card {
+  background: #fff8e7;
+  border: 2px solid #ffd966;
+  transition: all 0.3s;
+  margin-bottom: 15px;
+}
+
+.pending-card:hover {
+  border-color: var(--accent);
+}
+
+.book-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.approve-btn {
+  background: #28a745;
+  flex: 1;
+}
+
+.reject-btn {
+  background: var(--accent);
+  flex: 1;
+}
+
+.notification-item {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-left: 4px solid var(--accent);
+  box-shadow: var(--shadow);
+}
