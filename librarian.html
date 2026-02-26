@@ -5,25 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Библиотекарь | Предложения</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Красивый шрифт -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
       <h1>Панель библиотекаря</h1>
-      <a href="index.html" class="role-btn">← На главную</a>
+
+      <!-- КНОПКА НА ГЛАВНУЮ -->
+      <a href="index.html" class="role-btn icon-btn" title="На главную">
+        <img src="https://cdn.jsdelivr.net/npm/@tabler/icons/icons/home.svg" alt="home">
+      </a>
     </div>
 
     <!-- Уведомления -->
-    <div id="librarianNotifications" style="margin-bottom: 20px;"></div>
+    <div id="librarianNotifications" style="margin-bottom:20px;"></div>
 
     <h2>Предложить новую книгу</h2>
-    <p style="color: var(--text-light); margin-bottom: 1rem;">Книга появится в каталоге только после одобрения</p>
-    
+    <p style="color:var(--text-light);margin-bottom:1rem;">
+      Книга появится в каталоге только после одобрения
+    </p>
+
     <input id="title" placeholder="Название">
     <input id="author" placeholder="Автор">
     <input id="year" placeholder="Год">
-    
-    <!-- Тумблер для выбора типа источника PDF -->
+
+    <!-- Тумблер -->
     <div class="pdf-toggle-container">
       <label class="toggle-switch">
         <input type="checkbox" id="pdfToggle" checked>
@@ -31,20 +40,28 @@
       </label>
       <span id="toggleLabel">Файл PDF</span>
     </div>
-    
-    <!-- Поле для загрузки файла (показывается по умолчанию) -->
+
+    <!-- Файл -->
     <div id="fileInputContainer">
       <input type="file" id="pdfFile" accept=".pdf">
-      <small style="display: block; color: #666; margin-top: 5px;">Выберите PDF-файл</small>
+      <small style="display:block;color:#666;margin-top:5px;">
+        Выберите PDF файл
+      </small>
     </div>
-    
-    <!-- Поле для ссылки (скрыто по умолчанию) -->
-    <div id="linkInputContainer" style="display: none;">
-      <input id="pdfLink" placeholder="https://example.com/book.pdf" value="https://olehnik.ru/files/literatura/Н. Гоголь Шинель.pdf">
-      <small style="display: block; color: #666; margin-top: 5px;">Вставьте прямую ссылку на PDF-файл</small>
+
+    <!-- Ссылка -->
+    <div id="linkInputContainer" style="display:none;">
+      <input id="pdfLink" placeholder="https://example.com/book.pdf">
+      <small style="display:block;color:#666;margin-top:5px;">
+        Вставьте прямую ссылку на PDF файл
+      </small>
     </div>
-    
-    <button onclick="addBookProposal()">Отправить на модерацию</button>
+
+    <!-- КНОПКА ОТПРАВКИ -->
+    <button class="icon-btn send-btn" onclick="addBookProposal()">
+      <img src="https://cdn.jsdelivr.net/npm/@tabler/icons/icons/send.svg" alt="send">
+      <span>Отправить</span>
+    </button>
 
     <hr>
 
@@ -52,6 +69,7 @@
     <div id="myProposals"></div>
   </div>
 
+  <!-- Модалка -->
   <div id="notificationModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -60,84 +78,132 @@
     </div>
   </div>
 
+  <!-- Лоадер -->
   <div id="loader">
     <div class="spinner"></div>
   </div>
 
   <style>
-    /* Стили для тумблера */
+    /* ===== БАЗА КНОПОК ===== */
+    .icon-btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:48px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+
+    .icon-btn img {
+      width:22px;
+      height:22px;
+      opacity:.9;
+    }
+
+    /* ===== КНОПКА ОТПРАВИТЬ ===== */
+    .send-btn {
+      width:auto;
+      padding:0 18px;
+      gap:10px;
+      margin-top:12px;
+      background:linear-gradient(135deg,#ea5455,#ce422b);
+      border:none;
+      color:#ffffff;
+      font-family:"Roboto Condensed",system-ui,sans-serif;
+      font-size:15px;
+      font-weight:600;
+    }
+
+    .send-btn img {
+      width:20px;
+      height:20px;
+      filter:brightness(0) invert(1);
+      opacity:1;
+    }
+
+    .send-btn span {
+      color:#ffffff;
+      letter-spacing:.3px;
+    }
+
+    .send-btn:hover {
+      transform:translateY(-2px);
+      box-shadow:0 8px 20px rgba(206,66,43,.35);
+      background:linear-gradient(135deg,#f05a5b,#d94a33);
+    }
+
+    .send-btn:active {
+      transform:translateY(0);
+      box-shadow:0 3px 8px rgba(206,66,43,.25);
+    }
+
+    /* ===== ТУМБЛЕР ===== */
     .pdf-toggle-container {
-      display: flex;
-      align-items: center;
-      margin: 15px 0;
-      gap: 10px;
+      display:flex;
+      align-items:center;
+      margin:15px 0;
+      gap:10px;
     }
-    
+
     .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 60px;
-      height: 34px;
+      position:relative;
+      display:inline-block;
+      width:60px;
+      height:34px;
     }
-    
+
     .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
+      opacity:0;
+      width:0;
+      height:0;
     }
-    
+
     .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #2196F3;
-      transition: .4s;
-      border-radius: 34px;
+      position:absolute;
+      cursor:pointer;
+      inset:0;
+      background-color:#2196F3;
+      transition:.4s;
+      border-radius:34px;
     }
-    
+
     .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 26px;
-      width: 26px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
+      position:absolute;
+      content:"";
+      height:26px;
+      width:26px;
+      left:4px;
+      bottom:4px;
+      background-color:#fff;
+      transition:.4s;
+      border-radius:50%;
     }
-    
-    input:checked + .toggle-slider {
-      background-color: #2196F3;
-    }
-    
+
     input:checked + .toggle-slider:before {
-      transform: translateX(26px);
+      transform:translateX(26px);
     }
-    
+
     #toggleLabel {
-      font-weight: 500;
-      color: var(--text-color);
+      font-weight:500;
+      color:var(--text-color);
     }
-    
-    /* Стили для книг-ссылок */
+
+    /* ===== КНИГИ ===== */
     .book {
-      cursor: pointer;
-      transition: transform 0.2s;
+      cursor:pointer;
+      transition:transform .2s;
     }
-    
+
     .book:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transform:translateY(-2px);
+      box-shadow:0 4px 8px rgba(0,0,0,.1);
     }
-    
+
     .book-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
+      text-decoration:none;
+      color:inherit;
+      display:block;
     }
   </style>
 
