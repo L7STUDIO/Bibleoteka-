@@ -10,6 +10,8 @@
   --transition: all 0.2s ease;
   --border-radius: 20px;
   --card-radius: 18px;
+  --pdf-color: #2196F3;
+  --pdf-hover: #1976D2;
 }
 
 * {
@@ -125,6 +127,7 @@ h2 {
   width: 100%;
   display: flex;
   flex-direction: column;
+  animation: appear 0.3s ease backwards;
 }
 
 .book:hover {
@@ -151,8 +154,157 @@ h2 {
   gap: 4px;
 }
 
+/* Стили для PDF-ссылки в карточке книги */
+.book-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(33, 150, 243, 0.1);
+  color: var(--pdf-color);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
+  margin-top: 12px;
+  width: fit-content;
+  border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.book-link:hover {
+  background: var(--pdf-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  border-color: transparent;
+}
+
+.book-link:active {
+  transform: translateY(0);
+}
+
+.book-link::before {
+  content: "📄";
+  font-size: 1.1rem;
+}
+
+/* Кликабельная карточка книги */
+.book[data-has-pdf="true"] {
+  cursor: pointer;
+}
+
+.book[data-has-pdf="true"]:hover {
+  background: #f8faff;
+}
+
+/* Тумблер для переключения PDF */
+.pdf-toggle-container {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  gap: 15px;
+  padding: 10px;
+  background: var(--surface);
+  border-radius: 50px;
+  box-shadow: var(--shadow);
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--pdf-color);
+}
+
+input:focus + .toggle-slider {
+  box-shadow: 0 0 1px var(--pdf-color);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
+}
+
+#toggleLabel {
+  font-weight: 500;
+  color: var(--text);
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+/* Контейнеры для ввода PDF */
+#fileInputContainer,
+#linkInputContainer {
+  margin: 15px 0;
+  padding: 15px;
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+#fileInputContainer small,
+#linkInputContainer small {
+  display: block;
+  color: var(--text-light);
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+
+/* Стили для поля загрузки файла */
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background: var(--bg);
+  border: 2px dashed var(--text-light);
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+input[type="file"]:hover {
+  border-color: var(--pdf-color);
+  background: rgba(33, 150, 243, 0.05);
+}
+
 /* Форма добавления */
-input:not(#searchInput) {
+input:not(#searchInput):not([type="file"]) {
   width: 100%;
   padding: 0.9rem 1.2rem;
   border: none;
@@ -196,6 +348,19 @@ button:active {
   transform: scale(0.98);
 }
 
+/* Специальные стили для кнопки отправки */
+button[onclick="addBookProposal()"] {
+  background: linear-gradient(135deg, var(--primary) 0%, #1a2a3a 100%);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-top: 20px;
+}
+
+button[onclick="addBookProposal()"]:hover {
+  background: linear-gradient(135deg, #1a2a3a 0%, var(--primary) 100%);
+  box-shadow: 0 6px 16px rgba(45, 64, 89, 0.3);
+}
+
 /* Разделитель */
 hr {
   border: none;
@@ -216,6 +381,7 @@ hr {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+  backdrop-filter: blur(4px);
 }
 
 .spinner {
@@ -263,6 +429,7 @@ hr {
   margin-left: 10px;
 }
 
+/* Модальное окно */
 .modal {
   display: none;
   position: fixed;
@@ -273,6 +440,7 @@ hr {
   height: 100%;
   background-color: rgba(0,0,0,0.5);
   animation: fadeIn 0.3s;
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -294,6 +462,7 @@ hr {
   font-weight: bold;
   cursor: pointer;
   transition: var(--transition);
+  line-height: 1;
 }
 
 .close:hover {
@@ -353,7 +522,7 @@ hr {
 .book-actions {
   display: flex;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .approve-btn {
@@ -373,6 +542,25 @@ hr {
   margin-bottom: 10px;
   border-left: 4px solid var(--accent);
   box-shadow: var(--shadow);
+}
+
+/* Индикатор PDF в предложениях */
+.pdf-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  color: var(--pdf-color);
+  background: rgba(33, 150, 243, 0.1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-top: 5px;
+  width: fit-content;
+}
+
+.pdf-indicator::before {
+  content: "📄";
+  font-size: 0.9rem;
 }
 
 /* МОБИЛЬНАЯ АДАПТАЦИЯ */
@@ -446,8 +634,16 @@ hr {
     gap: 4px;
   }
 
+  /* PDF ссылка на мобильных */
+  .book-link {
+    padding: 10px 20px;
+    font-size: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+
   /* Форма */
-  input:not(#searchInput) {
+  input:not(#searchInput):not([type="file"]) {
     padding: 1rem;
     font-size: 16px;
     border-radius: 14px;
@@ -458,6 +654,23 @@ hr {
     padding: 1rem;
     font-size: 1rem;
     border-radius: 14px;
+  }
+
+  /* Тумблер на мобильных */
+  .pdf-toggle-container {
+    padding: 8px 15px;
+    margin: 12px 0;
+  }
+
+  #fileInputContainer,
+  #linkInputContainer {
+    padding: 12px;
+    margin: 10px 0;
+  }
+
+  input[type="file"] {
+    padding: 8px;
+    font-size: 14px;
   }
 
   /* Модальное окно */
@@ -506,6 +719,11 @@ hr {
   .book-info {
     font-size: 0.85rem;
   }
+  
+  .book-link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
 }
 
 /* Плавное появление карточек */
@@ -520,6 +738,14 @@ hr {
   }
 }
 
-.book {
-  animation: appear 0.3s ease backwards;
-    }
+/* Верхняя панель */
+.header-bar {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+/* Стили для активного состояния */
+.active {
+  background: var(--primary);
+  color: white;
+}
