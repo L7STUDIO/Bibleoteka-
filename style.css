@@ -10,7 +10,7 @@
   --transition: all 0.2s ease;
   --border-radius: 20px;
   --card-radius: 18px;
-  --pdf-color: #2196F3;
+  ---color: #2196F3;
   --pdf-hover: #1976D2;
 }
 
@@ -185,7 +185,7 @@ h2 {
 }
 
 .book-link::before {
-  content: "📄";
+  content: "";
   font-size: 1.1rem;
 }
 
@@ -559,7 +559,7 @@ hr {
 }
 
 .pdf-indicator::before {
-  content: "📄";
+  content: "";
   font-size: 0.9rem;
 }
 
@@ -748,4 +748,4 @@ hr {
 .active {
   background: var(--primary);
   color: white;
-}
+                  }
